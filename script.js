@@ -11,25 +11,31 @@ var schedule = {
   17: "",
   18: "",
 }
-var mt;
+var hr;
+var mn;
 var pt;
 const timeOpt = {
   hour12: false,
   hour: "numeric",
   }
-
+const timeOpt2 = {
+  hour12: false,
+  minute:"numeric"
+}
 var timeArray = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+var minArray = [0,15,30,45]
 var d;
 var timeKeep = setInterval(computeTimer, 1000);
 nodelay()
 
 function computeTimer() {
-  mt = new Date().toLocaleTimeString("en-US",timeOpt)
-  $("#miltime").html(mt)
-  if(pt !== mt){
+  hr = new Date().toLocaleTimeString("en-US",timeOpt)
+  mn = new Date().toLocaleTimeString("en-US",timeOpt2)
+  $("#miltime").html(hr)
+  
   timecolorchanger()
-  pt = mt;
-  }
+  
+  
 }
 
 function displayTimer() {
@@ -38,23 +44,36 @@ function displayTimer() {
   $("#datebox").html(d.toLocaleDateString())
 }
 function nodelay(){
-  mt = new Date().toLocaleTimeString("en-US",timeOpt)
-  pt = mt
+  hr = new Date().toLocaleTimeString("en-US",timeOpt)
+  mn = new Date().toLocaleTimeString("en-US",timeOpt2)
+  pt = hr
   timecolorchanger()
-  $("#miltime").html(mt)
+  $("#miltime").html(hr)
 }
 
 function timecolorchanger(){
   for (var i = 0; i < timeArray.length; i++) {
-    var id = "#"+timeArray[i].toString();
-    if(timeArray[i]< mt){
-    $(id).css("background-color","grey")
+    var id = timeArray[i].toString();
+    if(timeArray[i]< hr){
+    $(`#${id}`).css("background-color","grey")
     }
-    else if(timeArray[i] > mt){
-      $(id).css("background-color","green")
+    else if(timeArray[i] > hr){
+      $(`#${id}`).css("background-color","green")
     }
     else{
-      $(id).css("background-color","red")
+      for (var m = 0; m < minArray.length; m++) {
+        var minClass =minArray[m].toString();
+        if (mn < minArray[m]){
+          $(`#${id} .${minClass}`).css("background-color","green")
+        }
+        else if (mn >= minArray[m]&& mn <= minArray[m]+ 15){
+          $(`#${id} .${minClass}`).css("background-color","red")
+        }
+        else{
+          $(`#${id} .${minClass}`).css("background-color","grey")
+        }
+      }
+      
     }
   }
 }
