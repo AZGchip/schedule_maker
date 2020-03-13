@@ -83,9 +83,16 @@ function timecolorchanger() {
 }
 //builds page off of format sets button values 
 function pagebuild(){
+  var formfill;
   for (var b = 0;b < timeArray.length; b++) {
     var storageNum = timeArray[b];
-    var formfill = localStorage.getItem(storageNum);
+    if(localStorage.getItem(storageNum) !== null){
+    formfill = localStorage.getItem(storageNum)
+    }
+    else{
+     formfill = "";
+    }
+    
     var inputbutton = $(`<div class="savebutton col-sm-1 btn btn-warning mh-100">Add</div>`)
     $(inputbutton).attr("value",timeArray[b])
     $("#fillbox").append(`
