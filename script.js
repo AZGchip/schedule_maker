@@ -84,24 +84,24 @@ function timecolorchanger() {
 //builds page off of format sets button values 
 function pagebuild(){
   for (var b = 0;b < timeArray.length; b++) {
-    var storageNum = toString(timeArray[b]);
+    var storageNum = timeArray[b];
     var formfill = localStorage.getItem(storageNum);
-    var inputbutton = $(`<div class="savebutton col-md-1 btn btn-warning mh-100"> add event button</div>`)
+    var inputbutton = $(`<div class="savebutton col-sm-1 btn btn-warning mh-100">Add</div>`)
     $(inputbutton).attr("value",timeArray[b])
     $("#fillbox").append(`
     <div class="row time ">
     <div class="col-md-10  m-2 rounded bg-secondary border border-secondary">
         <div class="row  border border-dark rounded" id="${timeArray[b]}">
-            <div class="0 col-sm-3 text-center bar rounded-right border-right border-dark"></div>
-            <div class="15 col-sm-3 text-center bar rounded-right border-right border-dark"></div>
-            <div class="30 col-sm-3 text-center bar rounded-right border-right border-dark"></div>
-            <div class="45 col-sm-3 text-center bar rounded-right "></div>
+            <div class="0 col-3 text-center bar rounded-right border-right border-dark"></div>
+            <div class="15 col-3 text-center bar rounded-right border-right border-dark"></div>
+            <div class="30 col-3 text-center bar rounded-right border-right border-dark"></div>
+            <div class="45 col-3 text-center bar rounded-right "></div>
         </div>
         <div class="row" >
             <h5 id="${timeArray[b]}t" class=" col-sm-4 text-center mh-100 mb-0  title rounded">${twelveTime[b]}</h5>
         </div>
         <div class="row" id="${timeArray[b]}f">
-            <input class="formbox col-md-11 bg-secondary border-secondary rounded" type="text" value="${formfill}">
+            <input class="formbox col-11 bg-secondary border-secondary rounded" type="text" value="${formfill}">
            
         </div>
     </div>
@@ -116,7 +116,14 @@ $(".savebutton").on("click", function(){
   var formContent =$(`#${saveValue}f .formbox`).val();
   console.log(formContent);
   console.log(saveValue);
+
   saveToLocal(saveValue,formContent)
+  $(`#${saveValue}f .savebutton`).text("Saved!")
+  $(`#${saveValue}f .savebutton`).css("background-color","green")
+  setTimeout(function() {
+    $(`#${saveValue}f .savebutton`).css("background-color","orange")
+    $(`#${saveValue}f .savebutton`).text("Add")
+  }, 1000);
 })
 }
 // Saves to local storage

@@ -4,3 +4,7 @@
 .bar{
     height: 10px;
 }
+body{
+    background-image: url("assets/images/Background-Patterns3.jpg");
+    background-attachment: fixed;
+}
