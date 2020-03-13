@@ -1,49 +1,39 @@
-//military time 9am to 6pm. empty strings for user input
-var schedule = {
-  9: "",
-  10: "",
-  11: "",
-  12: "",
-  13: "",
-  14: "",
-  15: "",
-  16: "",
-  17: "",
-  18: "",
-}
+//variables
 var hr;
 var mn;
 var pt;
+var d;
+// 24hr hours
 const timeOpt = {
   hour12: false,
   hour: "numeric",
 }
+//24hr minutes
 const timeOpt2 = {
   hour12: false,
   minute: "numeric"
 }
+//arrays for 24hr time,time strings for page building , and array for progress bar
 var timeArray = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 var twelveTime =["9:00am","10:00 am","11:00 am","12:00 pm","1:00 pm","2:00 pm","3:00 pm","4:00 pm","5:00 pm","6:00 pm"]
 var minArray = [0, 15, 30, 45]
-var d;
 var timeKeep = setInterval(computeTimer, 5000);
+
 nodelay()
-
+//hour and minute 24hr variables set every 5 seconds
 function computeTimer() {
-  hr = new Date().toLocaleTimeString("en-US", timeOpt)
-  mn = new Date().toLocaleTimeString("en-US", timeOpt2)
-  
-
-  timecolorchanger()
-
-
+  hr = new Date().toLocaleTimeString("en-US", timeOpt);
+  mn = new Date().toLocaleTimeString("en-US", timeOpt2);
+   timecolorchanger();
 }
 
-function displayTimer() {
-  d = new Date();
-  $("#timebox").html(d.toLocaleTimeString())
-  $("#datebox").html(d.toLocaleDateString())
-}
+// function displayTimer() {
+//   d = new Date();
+//   $("#timebox").html(d.toLocaleTimeString());
+//   $("#datebox").html(d.toLocaleDateString());
+// }
+
+//sets HR and MN on startup then calls Pagebuild() and Timecolorchanger()
 function nodelay() {
   hr = new Date().toLocaleTimeString("en-US", timeOpt);
   mn = new Date().toLocaleTimeString("en-US", timeOpt2);
@@ -77,6 +67,7 @@ function timecolorchanger() {
         }
       }
     }
+    //green
     else if (timeArray[i] > hr) {
       $(`#${id}t`).css("background-color", "#82CB34")
       $(`#${id}`).css("background-color", "#82CB34")
@@ -90,6 +81,7 @@ function timecolorchanger() {
 
   }
 }
+//builds page off of format sets button values 
 function pagebuild(){
   for (var b = 0;b < timeArray.length; b++) {
     var storageNum = toString(timeArray[b]);
@@ -117,7 +109,7 @@ function pagebuild(){
 `)
   $(`#${timeArray[b]}f`).prepend(inputbutton)  
   }
-  //
+  //on click calls save to local function
 $(".savebutton").on("click", function(){
   var saveValue = $(this).attr("value");
    
