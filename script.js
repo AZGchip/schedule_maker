@@ -3,6 +3,7 @@ var hr;
 var mn;
 var pt;
 var d;
+var time12;
 // 24hr hours
 const timeOpt = {
   hour12: false,
@@ -11,7 +12,12 @@ const timeOpt = {
 //24hr minutes
 const timeOpt2 = {
   hour12: false,
-  minute: "numeric"
+  minute: "numeric",
+}
+const timeOpt3 = {
+  hour12: true,
+  hour: "numeric",
+  minute: "2-digit",
 }
 //arrays for 24hr time,time strings for page building , and array for progress bar
 var timeArray = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
@@ -24,6 +30,8 @@ nodelay()
 function computeTimer() {
   hr = new Date().toLocaleTimeString("en-US", timeOpt);
   mn = new Date().toLocaleTimeString("en-US", timeOpt2);
+  time12 = new Date().toLocaleTimeString("en-US", timeOpt3);
+  $("#timehere").text(time12);
    timecolorchanger();
 }
 
@@ -37,7 +45,8 @@ function computeTimer() {
 function nodelay() {
   hr = new Date().toLocaleTimeString("en-US", timeOpt);
   mn = new Date().toLocaleTimeString("en-US", timeOpt2);
-  pt = hr;
+  time12 = new Date().toLocaleTimeString("en-US", timeOpt3);
+  $("#timehere").text(time12);
   pagebuild();
   timecolorchanger();
   
@@ -93,11 +102,13 @@ function pagebuild(){
      formfill = "";
     }
     
-    var inputbutton = $(`<div class="savebutton col-sm-1 btn btn-warning mh-100">Add</div>`)
+    var inputbutton = $(`<div class="savebutton col-sm-12 btn btn-warning mh-100">Add</div>`)
+    var clearbutton = $(`<div class="clearbutton col-sm-12 btn btn-dark mh-100">Clear</div>`)
     $(inputbutton).attr("value",timeArray[b])
+    $(clearbutton).attr("value",timeArray[b])
     $("#fillbox").append(`
     <div class="row time ">
-    <div class="col-md-10  m-2 rounded bg-secondary border border-secondary">
+    <div class="col-md-10  m-2 rounded bg-secondary border border-secondary mx-auto">
         <div class="row  border border-dark rounded" id="${timeArray[b]}">
             <div class="0 col-3 text-center bar rounded-right border-right border-dark"></div>
             <div class="15 col-3 text-center bar rounded-right border-right border-dark"></div>
@@ -108,28 +119,42 @@ function pagebuild(){
             <h5 id="${timeArray[b]}t" class=" col-sm-4 text-center mh-100 mb-0  title rounded">${twelveTime[b]}</h5>
         </div>
         <div class="row" id="${timeArray[b]}f">
-            <input class="formbox col-11 bg-secondary border-secondary rounded" type="text" value="${formfill}">
+            <textarea class="formbox col-10 bg-secondary border-dark rounded" type="text" cols="40" rows="5" value="">${formfill}</textarea>
+           <div class="buttons col-2">
            
+           </div>
         </div>
     </div>
 </div>
 `)
-  $(`#${timeArray[b]}f`).prepend(inputbutton)  
+  $(`#${timeArray[b]}f .buttons`).append(inputbutton)
+  $(`#${timeArray[b]}f .buttons`).append(clearbutton)    
   }
   //on click calls save to local function
 $(".savebutton").on("click", function(){
   var saveValue = $(this).attr("value");
    
   var formContent =$(`#${saveValue}f .formbox`).val();
-  console.log(formContent);
-  console.log(saveValue);
-
-  saveToLocal(saveValue,formContent)
+ saveToLocal(saveValue,formContent)
   $(`#${saveValue}f .savebutton`).text("Saved!")
   $(`#${saveValue}f .savebutton`).css("background-color","green")
   setTimeout(function() {
     $(`#${saveValue}f .savebutton`).css("background-color","orange")
     $(`#${saveValue}f .savebutton`).text("Add")
+  }, 1000);
+})
+$(".clearbutton").on("click", function(){
+  var saveValue = $(this).attr("value");
+   
+  var formContent = ""
+ saveToLocal(saveValue,formContent)
+  $(`#${saveValue}f .clearbutton`).text("Cleared!")
+  $(`#${saveValue}f .clearbutton`).css("background-color","white")
+  $(`#${saveValue}f .clearbutton`).css("color","black")
+  $(`#${saveValue}f .formbox`).val("")
+  setTimeout(function() {
+    $(`#${saveValue}f .clearbutton`).css("background-color","grey")
+    $(`#${saveValue}f .clearbutton`).text("clear")
   }, 1000);
 })
 }
