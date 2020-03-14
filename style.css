@@ -1,10 +1,13 @@
-/* .time{
-    height: 100px;
-} */
 .bar{
     height: 10px;
 }
 body{
     background-image: url("assets/images/Background-Patterns3.jpg");
     background-attachment: fixed;
+}
+.clearbutton{
+    background-color:#B2654D ;
+}
+.savebutton{
+    background-color: #82CB34 ;
 }
